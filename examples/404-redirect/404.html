@@ -1,0 +1,34 @@
+<!-- Give out some hints. -->
+<h1>Redirecting ...</h1>
+
+
+<script>
+    /* Step1: get request url */
+    var url = window.location.href; // origin url
+    var request_url = url
+        // remove url protocol (http or https)
+        .replace("http://", "PROTOCAL")
+        .replace("https://", "PROTOCAL")
+        // remove domain name
+        .replace(/PROTOCAL(.+?)\//g, "")
+        // convert to lower case, if you wish.
+        .toLowerCase()
+
+    /* Step2: mapping */
+    var map_table = {
+        "REQUEST_URL": "REDIRECT_URL",
+        "about": "/about.html",
+        "author": "//BernieHuang.github.io/",
+    }
+
+    /* Step3: redirect */
+    var redirect_url = map_table[request_url];
+    if(redirect_url !== undefined){
+        // mapped
+        window.location.href = redirect_url;
+    }else{
+        // not mapped
+        // You can show the 404 message to user.
+        document.write("404 Not Found");
+    }
+</script>

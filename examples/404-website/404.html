@@ -1,0 +1,51 @@
+<title>404 Not Found</title>
+<script>
+    var pageName = window.location.href.split('/')[3].trim().toLowerCase();
+    // pageName = "museum";	// DEV
+    const pages = ["404.html", "index", "page1"];
+    var i = pages.indexOf(pageName);
+
+    if (i == -1) {
+        // not found
+        window.location.href = "404.html";
+    }
+    else {
+        // found.
+        const page_title = {
+            "about": "About 404-redirect",
+            "404.html": "404 Not Found",
+            "index": "404-redirect",
+            "page1": "Page 1",
+        }
+        document.querySelector("title").innerText = page_title[pages[i]];
+
+        // load page.
+        HTTP_GET("/pages/" + pages[i] + ".html", res => {
+            // Extract Scripts
+            // var scripts = "";
+            // res = res.replaceAll(/<script>([\s\S]+?)<\/script>/g, function (_, match) {
+            //     scripts += "\n" + match;
+            //     return "";
+            // });
+
+            // Load Page
+            document.querySelector('#container').innerHTML = res;
+
+            // Run Scripts
+            // eval(scripts)
+        });
+    }
+
+
+    function HTTP_GET(aUrl, aCallback) {
+        var anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function () {
+            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                aCallback(anHttpRequest.responseText);
+        }
+
+        anHttpRequest.open("GET", aUrl, true);
+        anHttpRequest.send(null);
+    }
+
+</script>
